@@ -47,7 +47,10 @@ class HomeViewModel() : ViewModel() {
                     businessDescription = "Deciding between an Autoshop business, electronics store, and an Online Ecommerce store",
                     businessScore = 90,
                     date = Date(),
-                    businessTags = testTags1
+                    businessTags = testTags1,
+                    businessAnalysis = testTags1,
+                    personalSkills = testTags1,
+                    ownCriteria = testTags1
                 )
 
                 val testIdea2 = BusinessIdea(
@@ -55,7 +58,10 @@ class HomeViewModel() : ViewModel() {
                     businessDescription = "A startup focused on developing innovative tech solutions for small businesses",
                     businessScore = 85,
                     date = Date(),
-                    businessTags = testTags2
+                    businessTags = testTags2,
+                    businessAnalysis = testTags1,
+                    personalSkills = testTags1,
+                    ownCriteria = testTags1
                 )
 
                 val testIdea3 = BusinessIdea(
@@ -63,7 +69,10 @@ class HomeViewModel() : ViewModel() {
                     businessDescription = "An online platform to connect local artisans with customers worldwide",
                     businessScore = 88,
                     date = Date(),
-                    businessTags = testTags3
+                    businessTags = testTags3,
+                    businessAnalysis = testTags1,
+                    personalSkills = testTags1,
+                    ownCriteria = testTags1
                 )
 
                 // Insert ideas into DB

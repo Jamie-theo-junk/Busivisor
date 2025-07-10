@@ -1,5 +1,6 @@
 package com.jamie.businessideasevaluator.View.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +28,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         val bottomNav = binding.bottomNav
         bottomNav.setupWithNavController(navController)
-
+        binding.fabAdd.setOnClickListener {
+            val intent = Intent(this, BusinessNameActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

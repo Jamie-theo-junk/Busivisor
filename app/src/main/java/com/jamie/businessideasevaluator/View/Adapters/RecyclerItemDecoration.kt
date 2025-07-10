@@ -14,7 +14,7 @@ class RecyclerItemDecoration(private val bottomMarginPx: Int) : RecyclerView.Ite
         val position = parent.getChildAdapterPosition(view)
         val itemCount = parent.adapter?.itemCount ?: 0
 
-        // Apply bottom margin only to the last item
+        // Applys bottom margin only to the last item
         if (position == itemCount - 1) {
             outRect.bottom = bottomMarginPx
         } else {

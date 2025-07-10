@@ -27,7 +27,24 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>) :
             binding.businessName.text = idea.businessName
             binding.businessDescription.text = idea.businessDescription
             setupPieChart(binding.businessPieChart, idea.businessTags)
+            // Gets tag values and total
+            val tagEntries = idea.businessTags.entries.toList()
+            val total = tagEntries.sumOf { it.value }
 
+
+            val textViews = listOf(binding.textOne, binding.textTwo, binding.textThree)
+
+            for (i in 0 until minOf(tagEntries.size, 3)) {
+                val label = tagEntries[i].key
+                val value = tagEntries[i].value.toFloat()
+                val percent = (value / total) * 100
+                textViews[i].text = "$label: ${"%.0f".format(percent)}%"
+            }
+
+            // If fewer than 3 tags, clear the remaining TextViews
+            for (i in tagEntries.size until 3) {
+                textViews[i].text = ""
+            }
         }
     }
 

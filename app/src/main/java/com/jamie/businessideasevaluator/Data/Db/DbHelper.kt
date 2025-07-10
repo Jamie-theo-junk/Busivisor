@@ -58,7 +58,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
             val dateMillis = cursor.getLong(cursor.getColumnIndexOrThrow("date"))
             val tagsJson = cursor.getString(cursor.getColumnIndexOrThrow("businessTags"))
 
-            // Convert JSON back to Map<String, Int>
+            // Converts JSON back to Map<String, Int>
             val tags = mutableMapOf<String, Int>()
             val jsonObject = JSONObject(tagsJson)
             jsonObject.keys().forEach { key ->
