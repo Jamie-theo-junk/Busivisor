@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.Fragments.TropyFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="News" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <!-- Top Banner -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topBanner"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:background="@color/tan"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" >
+            <ImageView
+                android:id="@+id/trophyImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/trophy_png"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="picture of girl"
+                android:layout_marginStart="5dp"/>
+            <TextView
+                android:id="@+id/dailyQuote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/trophyImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/dailyText"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="25dp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!-- Card Container -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="-20dp"
+            android:layout_marginBottom="-20dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="8dp"
+            app:layout_constraintTop_toBottomOf="@id/topBanner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- RecyclerView inside the card -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/business_ideas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp" />
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -3,7 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+
 android {
+
     namespace = "com.jamie.businessideasevaluator"
     compileSdk = 35
 
@@ -53,4 +55,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 }

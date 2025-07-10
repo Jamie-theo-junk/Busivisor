@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_orange">#FF8001</color>
     <color name="tan">#DCCD81</color>
+    <color name="cream">#F6F6F6</color>
+    <color name="offYellow">#E6CE56</color>
+    <color name="paleOrange">#FFA742</color>
 </resources>

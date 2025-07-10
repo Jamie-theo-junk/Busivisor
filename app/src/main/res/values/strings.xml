@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">business Ideas Evaluator</string>
+    <string name="Today">Today</string>
+    <string name="dailyText">Wow Such Empty?</string>
 </resources>

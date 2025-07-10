@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:elevation="5dp"
+    app:cardBackgroundColor="@color/cream">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/businessName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Business Idea"
+        android:fontFamily="@font/open_sans_regular"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxWidth="200dp"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/businessDescriptionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/businessName"
+        app:layout_constraintStart_toStartOf="@id/businessName"
+        android:text="Description:"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/open_sans_regular"
+        />
+    <TextView
+        android:id="@+id/businessDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/businessDescriptionTitle"
+        app:layout_constraintStart_toStartOf="@id/businessDescriptionTitle"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:maxWidth="150dp"
+        android:text="TextPlaceholder"
+        android:fontFamily="@font/open_sans_light"
+        android:maxLines="3"/>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/businessPieChart"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rankOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/businessPieChart"
+        app:layout_constraintStart_toStartOf="@id/businessPieChart"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"
+        >
+        <androidx.cardview.widget.CardView
+            android:id="@+id/circleOne"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/offYellow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/textOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Business Analysis"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/circleOne"
+            app:layout_constraintBottom_toBottomOf="@+id/circleOne"
+app:layout_constraintStart_toEndOf="@id/circleOne"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="10sp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rankTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toStartOf="@+id/businessPieChart"
+        app:layout_constraintTop_toBottomOf="@+id/rankOne"
+
+        >
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/circleTwo"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:cardBackgroundColor="@color/tan"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_regular"
+            android:text="Personal Skills"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/circleTwo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/circleTwo"
+            app:layout_constraintTop_toTopOf="@id/circleTwo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rankThree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toStartOf="@+id/businessPieChart"
+        app:layout_constraintTop_toBottomOf="@+id/rankTwo">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/circleThree"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:cardBackgroundColor="@color/paleOrange"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textThree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_regular"
+            android:text="Own Criteria"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/circleThree"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/circleThree"
+            app:layout_constraintTop_toTopOf="@id/circleThree"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/black"
+        />
+    <ImageView
+        android:id="@+id/chevron"
+        android:src="@drawable/chevron_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintBottom_toBottomOf="@id/view"
+        app:layout_constraintStart_toEndOf="@id/view"
+        android:layout_marginStart="5dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
