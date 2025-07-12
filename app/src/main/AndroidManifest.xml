@@ -13,6 +13,16 @@
         android:theme="@style/Theme.BusinessIdeasEvaluator"
         tools:targetApi="31">
         <activity
+            android:name=".View.Activities.CompletedTickActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.Activities.RankingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.Activities.BusinessNameActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".View.Activities.MainActivity"
             android:exported="true">
             <intent-filter>
