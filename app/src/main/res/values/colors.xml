@@ -7,5 +7,8 @@
     <color name="cream">#F6F6F6</color>
     <color name="offYellow">#E6CE56</color>
     <color name="paleOrange">#FFA742</color>
+    <color name="seekBarYellow">#FFCA1A</color>
     <color name="grey">#8B8B8B</color>
+    <color name="pale_pink">#FD8CEA</color>
+    <color name="tiel">#028B84</color>
 </resources>

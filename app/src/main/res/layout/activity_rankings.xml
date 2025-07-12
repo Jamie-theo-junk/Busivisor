@@ -7,36 +7,63 @@
     android:layout_height="match_parent"
     tools:context=".View.Activities.RankingsActivity"
     android:padding="16dp">
-
-        <!-- Top Progress Bar with 3 dashes -->
+<RelativeLayout
+    android:id="@+id/topBanner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/more_button"
+        android:contentDescription="Back Button"
+        android:layout_centerVertical="true"/>
+    <TextView
+        android:id="@+id/BusinessName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PlaceHolder"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/open_sans_bold"/>
+</RelativeLayout>
         <LinearLayout
             android:id="@+id/progressIndicator"
             android:layout_width="wrap_content"
-            android:layout_height="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_height="4dp"
             android:orientation="horizontal"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/topBanner"
+            app:layout_constraintStart_toStartOf="@id/topBanner"
+            app:layout_constraintEnd_toEndOf="@id/topBanner"
+            android:layout_marginTop="20dp">
 
             <View
                 android:id="@+id/progress_step_1"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/progress_dash_inactive" />
 
             <View
                 android:id="@+id/progress_step_2"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/progress_dash_inactive" />
 
             <View
                 android:id="@+id/progress_step_3"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/progress_dash_inactive" />
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.jamie.businessideasevaluator.Data.Db
 
+
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -9,7 +10,8 @@ import com.jamie.businessideasevaluator.Data.Model.BusinessIdea
 import org.json.JSONObject
 import java.util.Date
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db", null, 1) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db", null, 2) {
+
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """
@@ -19,7 +21,10 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
                 businessDescription TEXT,
                 businessScore INTEGER,
                 date INTEGER,
-                businessTags TEXT
+                businessTags TEXT,
+                businessAnalysis TEXT,
+                personalSkills TEXT,
+                ownCriteria TEXT
             )
             """.trimIndent()
         )
@@ -37,13 +42,15 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
             put("businessDescription", idea.businessDescription)
             put("businessScore", idea.businessScore)
             put("date", idea.date.time)
-            put("businessTags", JSONObject(idea.businessTags).toString()) // Map<String, Int> → JSON
+            put("businessTags", JSONObject(idea.businessTags).toString())
+            put("businessAnalysis", JSONObject(idea.businessAnalysis).toString())
+            put("personalSkills", JSONObject(idea.personalSkills).toString())
+            put("ownCriteria", JSONObject(idea.ownCriteria).toString())
         }
 
         val outcomeResult = db.insert("business_ideas", null, values) > 0
         Log.d(TAG, "insertBusinessIdea: outcome result: $outcomeResult")
         return outcomeResult
-        
     }
 
     fun getAllBusinessIdeas(): List<BusinessIdea> {
@@ -56,14 +63,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
             val description = cursor.getString(cursor.getColumnIndexOrThrow("businessDescription"))
             val score = cursor.getInt(cursor.getColumnIndexOrThrow("businessScore"))
             val dateMillis = cursor.getLong(cursor.getColumnIndexOrThrow("date"))
-            val tagsJson = cursor.getString(cursor.getColumnIndexOrThrow("businessTags"))
 
-            // Converts JSON back to Map<String, Int>
-            val tags = mutableMapOf<String, Int>()
-            val jsonObject = JSONObject(tagsJson)
-            jsonObject.keys().forEach { key ->
-                tags[key] = jsonObject.getInt(key)
-            }
+            val tags = parseJsonToMap(cursor.getString(cursor.getColumnIndexOrThrow("businessTags")))
+            val analysis = parseJsonToMap(cursor.getString(cursor.getColumnIndexOrThrow("businessAnalysis")))
+            val skills = parseJsonToMap(cursor.getString(cursor.getColumnIndexOrThrow("personalSkills")))
+            val criteria = parseJsonToMap(cursor.getString(cursor.getColumnIndexOrThrow("ownCriteria")))
 
             ideas.add(
                 BusinessIdea(
@@ -71,7 +75,10 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
                     businessDescription = description,
                     businessScore = score,
                     date = Date(dateMillis),
-                    businessTags = tags
+                    businessTags = tags,
+                    businessAnalysis = analysis,
+                    personalSkills = skills,
+                    ownCriteria = criteria
                 )
             )
         }
@@ -79,7 +86,21 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
         cursor.close()
         return ideas
     }
-    companion object{
+
+    private fun parseJsonToMap(jsonString: String?): Map<String, Int> {
+        if (jsonString.isNullOrEmpty()) return emptyMap()
+        return try {
+            val json = JSONObject(jsonString)
+            val map = mutableMapOf<String, Int>()
+            json.keys().forEach { key -> map[key] = json.getInt(key) }
+            map
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to parse JSON to Map: $jsonString", e)
+            emptyMap()
+        }
+    }
+
+    companion object {
         private const val TAG = "DbHelper"
     }
 }

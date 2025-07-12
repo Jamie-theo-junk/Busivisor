@@ -13,6 +13,7 @@ import com.jamie.businessideasevaluator.databinding.ActivityRankingsBinding
 class RankingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRankingsBinding
+    lateinit var viewPager: ViewPager2
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,12 +24,17 @@ class RankingsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val businessName: String? = intent.getStringExtra("business_name")
+        val businessNameTextView = binding.BusinessName
+        businessNameTextView.text = businessName
         val adapter = BusinessIdeaViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
 
 
-        // Handles progress dash color change
-        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        viewPager = binding.viewPager
+        viewPager.isUserInputEnabled = false
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 updateProgressIndicators(position)
             }
