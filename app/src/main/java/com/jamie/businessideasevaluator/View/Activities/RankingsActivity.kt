@@ -25,9 +25,10 @@ class RankingsActivity : AppCompatActivity() {
             insets
         }
         val businessName: String? = intent.getStringExtra("business_name")
+        val businessDescription: String? = intent.getStringExtra("business_description")
         val businessNameTextView = binding.BusinessName
         businessNameTextView.text = businessName
-        val adapter = BusinessIdeaViewPagerAdapter(this)
+        val adapter = BusinessIdeaViewPagerAdapter(this, businessName, businessDescription)
         binding.viewPager.adapter = adapter
 
 

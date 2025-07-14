@@ -1,6 +1,6 @@
 package com.jamie.businessideasevaluator.Data.SD
 
-class Quotes {
+class Qoutes {
     val quotes = listOf(
         "Start small, think big.",
         "Solve problems, not symptoms.",

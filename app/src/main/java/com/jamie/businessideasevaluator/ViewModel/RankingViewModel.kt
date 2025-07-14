@@ -61,7 +61,10 @@ class RankingViewModel() : ViewModel() {
             businessName = name,
             businessDescription = description,
             businessTags = tag,
-            businessScore = score
+            businessScore = score,
+            businessAnalysis = businessAnalysis,
+            personalSkills = personalSkills,
+            ownCriteria = ownCriteria
         )
 
         repository.insertIdea(newIdea)
