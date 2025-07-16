@@ -57,6 +57,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("com.airbnb.android:lottie:6.6.7")
+    implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
 
 
 }

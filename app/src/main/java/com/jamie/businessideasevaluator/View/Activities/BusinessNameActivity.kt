@@ -25,17 +25,25 @@ class BusinessNameActivity : AppCompatActivity() {
             insets
         }
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        val editText = binding.businessNameInput
+        val name = binding.businessNameInput
+        val description = binding.businessDescriptionInput
         val saveButton = binding.saveCard
+        val backButton = binding.backBtn
+        backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         saveButton.setOnClickListener {
-            val businessName = editText.text.toString().trim()
+            val businessName = name.text.toString().trim()
+            val businessDescription = description.text.toString().trim()
 
-            if (businessName.isEmpty()) {
-                Toast.makeText(this, "Please enter a business name", Toast.LENGTH_SHORT).show()
+
+            if (businessName.isEmpty() || businessDescription.isEmpty()) {
+                Toast.makeText(this, "Please enter a business name or description", Toast.LENGTH_SHORT).show()
             } else {
 
                 val intent = Intent(this, RankingsActivity::class.java)
                 intent.putExtra("business_name", businessName)
+                intent.putExtra("business_description",businessDescription)
                 startActivity(intent)
             }
         }

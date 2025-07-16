@@ -1,8 +1,11 @@
 package com.jamie.businessideasevaluator.View.Adapters
 
-import android.graphics.Color
+import android.content.Context
+import android.content.Intent
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -11,41 +14,105 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.jamie.businessideasevaluator.Data.Model.BusinessIdea
 import com.jamie.businessideasevaluator.R
+import com.jamie.businessideasevaluator.View.Activities.BusinessPageActivity
 import com.jamie.businessideasevaluator.databinding.HomeBusinessCardBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import kotlin.collections.get
 
 
-class HomeRecAdapter(private var ideas: List<BusinessIdea>) :
+class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val context:Context,
+                     private val onItemRemove: (BusinessIdea) -> Unit) :
     RecyclerView.Adapter<HomeRecAdapter.BusinessIdeaViewHolder>() {
 
     inner class BusinessIdeaViewHolder(private val binding: HomeBusinessCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(idea: BusinessIdea) {
+        fun bind(idea: BusinessIdea, position: Int, previousIdea: BusinessIdea?) {
             binding.businessName.text = idea.businessName
             binding.businessDescription.text = idea.businessDescription
+
+
+            val currentDate = idea.date
+            val previousDate = previousIdea?.date
+
+            val formattedDate = getFormattedDate(currentDate)
+
+            if (previousDate != null && isSameDay(currentDate, previousDate)) {
+                binding.date.visibility = View.GONE
+            } else {
+                binding.date.visibility = View.VISIBLE
+                binding.date.text = formattedDate
+            }
+
+
             setupPieChart(binding.businessPieChart, idea.businessTags)
-            // Gets tag values and total
+
+
             val tagEntries = idea.businessTags.entries.toList()
             val total = tagEntries.sumOf { it.value }
 
-
             val textViews = listOf(binding.textOne, binding.textTwo, binding.textThree)
 
-            for (i in 0 until minOf(tagEntries.size, 3)) {
+            for (i in tagEntries.indices.take(3)) {
                 val label = tagEntries[i].key
                 val value = tagEntries[i].value.toFloat()
                 val percent = (value / total) * 100
                 textViews[i].text = "$label: ${"%.0f".format(percent)}%"
             }
 
-            // If fewer than 3 tags, clear the remaining TextViews
+
+            // Clear any unused text views
             for (i in tagEntries.size until 3) {
                 textViews[i].text = ""
             }
+
+
+            binding.homeCardView.setOnClickListener {
+                val intent = Intent(context, BusinessPageActivity::class.java)
+                intent.putExtra("idea_position", adapterPosition)
+                intent.putExtra("fragment", 1)
+                context.startActivity(intent)
+            }
         }
+    }
+
+    fun updateList(newItems: List<BusinessIdea>) {
+        ideas = newItems.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        val itemToRemove = ideas[position]
+        onItemRemove(itemToRemove)
+    }
+    fun removeConfirmed(position: Int) {
+        ideas.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun getIdeaPosition(idea: BusinessIdea): Int {
+        return ideas.indexOf(idea)
+    }
+
+    private fun getFormattedDate(date: Date): String {
+        return if (DateUtils.isToday(date.time)) {
+            "Today"
+        } else {
+            val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            formatter.format(date)
+        }
+    }
+
+    private fun isSameDay(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
     }
 
     override fun onCreateViewHolder(
@@ -62,15 +129,17 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>) :
         position: Int
     ) {
         Log.d(TAG, "onBindViewHolder: position: $position")
-        holder.bind(ideas[position])
+        val idea = ideas[position]
+        val previousIdea = if (position > 0) ideas[position - 1] else null
+        holder.bind(idea, position, previousIdea)
     }
 
     override fun getItemCount(): Int = ideas.size
 
-    fun updateList(newIdeas: List<BusinessIdea>) {
-        ideas = newIdeas
-        notifyDataSetChanged()
-    }
+//    fun updateList(newIdeas: List<BusinessIdea>) {
+//        ideas = newIdeas
+//        notifyDataSetChanged()
+//    }
 
     private fun setupPieChart(pieChart: PieChart, tags: Map<String, Int>) {
         if (tags.isEmpty()) return
@@ -79,7 +148,7 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>) :
 
         val dataSet = PieDataSet(entries, "")
 
-        // Get colors from context
+
         val context = pieChart.context
         val colors = listOf(
             ContextCompat.getColor(context, R.color.offYellow),

@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jamie.businessideasevaluator.Data.SD.Questions
 import com.jamie.businessideasevaluator.View.Activities.RankingsActivity
@@ -45,10 +44,7 @@ class BusinessAnalysisFragment : Fragment() {
 
         val questions = Questions().businessAnalysisQuestions
 
-        // Initially disable the button
-        binding.saveCard.isEnabled = false
-
-        val adapter = SeekbarRecyclerAdapter(questions) { allAnswered, updatedMap ->
+        val adapter = SeekbarRecyclerAdapter(questions as MutableMap<String, List<String>>,0) { allAnswered, updatedMap ->
 
             if (allAnswered) {
                 binding.saveCard.isEnabled = true
@@ -61,10 +57,7 @@ class BusinessAnalysisFragment : Fragment() {
 
         binding.saveCard.setOnClickListener {
             (activity as? RankingsActivity)?.viewPager?.currentItem = 1
-            Log.d(TAG, "onViewCreated: --------------------------")
-            viewModel.businessAnalysis.forEach { (key, value) ->
-                Log.d(TAG, "BusinessAnalysis -> $key: $value")
-            }
+
         }
     }
 

@@ -9,7 +9,7 @@ import com.jamie.businessideasevaluator.databinding.OwnCriteriaRecCardBinding
 import com.jamie.businessideasevaluator.databinding.PersonalSkillRecCardBinding
 
 class OwnCriteriaRecAdapter (
-    private val questions: List<String>,
+    private val questions: MutableList<String>,
     private val onProgressChanged: (Map<String, Int>) -> Unit
 ) : RecyclerView.Adapter<OwnCriteriaViewHolder>() {
 
@@ -27,6 +27,7 @@ class OwnCriteriaRecAdapter (
         val question = questions[position]
         holder.bind(question)
     }
+
 
     override fun getItemCount(): Int = questions.size
 
