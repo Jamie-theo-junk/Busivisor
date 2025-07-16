@@ -87,6 +87,13 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
         return ideas
     }
 
+    fun deleteBusinessIdeaByName(name: String): Boolean {
+        val db = writableDatabase
+        val rowsDeleted = db.delete("business_ideas", "businessName = ?", arrayOf(name))
+        Log.d(TAG, "deleteBusinessIdeaByName: rows deleted = $rowsDeleted")
+        return rowsDeleted > 0
+    }
+
     private fun parseJsonToMap(jsonString: String?): Map<String, Int> {
         if (jsonString.isNullOrEmpty()) return emptyMap()
         return try {

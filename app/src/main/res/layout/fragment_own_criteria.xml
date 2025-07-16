@@ -22,7 +22,7 @@
             android:textColor="@color/black"
             android:layout_marginStart="30dp"
             />
-        <androidx.cardview.widget.CardView
+        <FrameLayout
             android:id="@+id/addCriteriaCard"
             android:layout_width="match_parent"
             android:layout_height="35dp"
@@ -30,7 +30,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             app:cardCornerRadius="10dp"
-            app:cardBackgroundColor="@color/tiel"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/blue_border"
             app:layout_constraintTop_toBottomOf="@id/categoryName"
            >
             <TextView
@@ -38,10 +39,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Add Criteria"
-                android:textColor="@color/white"
+                android:textColor="@color/tiel"
                 android:fontFamily="@font/open_sans_regular"
                 android:textSize="20sp" />
-        </androidx.cardview.widget.CardView>
+        </FrameLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/seekBarRecyclerView"
             android:layout_width="match_parent"

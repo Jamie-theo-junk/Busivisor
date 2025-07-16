@@ -22,9 +22,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.collections.get
 
 
-class HomeRecAdapter(private var ideas: List<BusinessIdea>,private val context:Context) :
+class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val context:Context,
+                     private val onItemRemove: (BusinessIdea) -> Unit) :
     RecyclerView.Adapter<HomeRecAdapter.BusinessIdeaViewHolder>() {
 
     inner class BusinessIdeaViewHolder(private val binding: HomeBusinessCardBinding) :
@@ -34,7 +36,7 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>,private val context:C
             binding.businessName.text = idea.businessName
             binding.businessDescription.text = idea.businessDescription
 
-            // Format and show/hide date
+
             val currentDate = idea.date
             val previousDate = previousIdea?.date
 
@@ -47,10 +49,10 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>,private val context:C
                 binding.date.text = formattedDate
             }
 
-            // Pie Chart setup
+
             setupPieChart(binding.businessPieChart, idea.businessTags)
 
-            // Tag percentage labels
+
             val tagEntries = idea.businessTags.entries.toList()
             val total = tagEntries.sumOf { it.value }
 
@@ -63,12 +65,13 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>,private val context:C
                 textViews[i].text = "$label: ${"%.0f".format(percent)}%"
             }
 
+
             // Clear any unused text views
             for (i in tagEntries.size until 3) {
                 textViews[i].text = ""
             }
 
-            // Click handler
+
             binding.homeCardView.setOnClickListener {
                 val intent = Intent(context, BusinessPageActivity::class.java)
                 intent.putExtra("idea_position", adapterPosition)
@@ -76,6 +79,24 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>,private val context:C
                 context.startActivity(intent)
             }
         }
+    }
+
+    fun updateList(newItems: List<BusinessIdea>) {
+        ideas = newItems.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        val itemToRemove = ideas[position]
+        onItemRemove(itemToRemove)
+    }
+    fun removeConfirmed(position: Int) {
+        ideas.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun getIdeaPosition(idea: BusinessIdea): Int {
+        return ideas.indexOf(idea)
     }
 
     private fun getFormattedDate(date: Date): String {
@@ -115,10 +136,10 @@ class HomeRecAdapter(private var ideas: List<BusinessIdea>,private val context:C
 
     override fun getItemCount(): Int = ideas.size
 
-    fun updateList(newIdeas: List<BusinessIdea>) {
-        ideas = newIdeas
-        notifyDataSetChanged()
-    }
+//    fun updateList(newIdeas: List<BusinessIdea>) {
+//        ideas = newIdeas
+//        notifyDataSetChanged()
+//    }
 
     private fun setupPieChart(pieChart: PieChart, tags: Map<String, Int>) {
         if (tags.isEmpty()) return

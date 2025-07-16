@@ -10,7 +10,9 @@ class BusinessIdeaRepository(private val dbHelper: DbHelper) {
     fun insertIdea(idea: BusinessIdea): Boolean {
         return dbHelper.insertBusinessIdea(idea)
     }
-
+    fun removeBusinessIdea(idea: BusinessIdea): Boolean {
+        return dbHelper.deleteBusinessIdeaByName(idea.businessName)
+    }
     fun getAllIdeas(): List<BusinessIdea> {
         val ideas = dbHelper.getAllBusinessIdeas()
             .sortedByDescending { it.date } // Newest to oldest

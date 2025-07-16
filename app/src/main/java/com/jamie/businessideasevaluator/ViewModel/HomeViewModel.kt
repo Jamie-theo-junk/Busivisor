@@ -10,6 +10,7 @@ import com.jamie.businessideasevaluator.Data.Model.BusinessIdea
 import com.jamie.businessideasevaluator.Data.Repository.BusinessIdeaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
 
 class HomeViewModel() : ViewModel() {
@@ -21,6 +22,7 @@ class HomeViewModel() : ViewModel() {
         val dbHelper = DbHelper(context)
         repository = BusinessIdeaRepository(dbHelper)
     }
+
     fun loadIdeas() {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -31,8 +33,20 @@ class HomeViewModel() : ViewModel() {
         }
     }
 
-    companion object{
+    companion object {
         private const val TAG = "HomeViewModel"
     }
 
+    suspend fun removeIdea(idea: BusinessIdea): Boolean {
+        return withContext(Dispatchers.IO) {
+            val success = repository.removeBusinessIdea(idea)
+            if (success) {
+                val updatedList = repository.getAllIdeas()
+                withContext(Dispatchers.Main) {
+                    ideas.value = updatedList
+                }
+            }
+            success
+        }
+    }
 }

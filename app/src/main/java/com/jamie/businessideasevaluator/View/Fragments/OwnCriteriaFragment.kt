@@ -9,12 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jamie.businessideasevaluator.Data.SD.Questions
 import com.jamie.businessideasevaluator.R
 import com.jamie.businessideasevaluator.View.Activities.CompletedTickActivity
 import com.jamie.businessideasevaluator.View.Adapters.OwnCriteriaRecAdapter
+import com.jamie.businessideasevaluator.View.Adapters.SeekbarRecyclerAdapter
 import com.jamie.businessideasevaluator.ViewModel.RankingViewModel
 import com.jamie.businessideasevaluator.databinding.FragmentOwnCriteriaBinding
 import kotlin.getValue
@@ -39,27 +41,47 @@ class OwnCriteriaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.initRepository(this.requireContext())
-        val questions = Questions().ownCriteria.toMutableList()
-        val adapter = OwnCriteriaRecAdapter(questions) { updatedMap ->
+        val questions = Questions().ownCriteria
+
+        val adapter = SeekbarRecyclerAdapter(questions as MutableMap<String, List<String>>,2) { allAnswered, updatedMap ->
+
+            if (allAnswered) {
+                binding.saveCard.isEnabled = true
+            }
             viewModel.updateOwnCriteria(updatedMap)
         }
         binding.addCriteriaCard.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_add_criteria, null)
             val inputField = dialogView.findViewById<EditText>(R.id.criteriaInput)
 
-            AlertDialog.Builder(requireContext())
+            val dialog = AlertDialog.Builder(requireContext())
                 .setTitle("Add Custom Criteria")
                 .setView(dialogView)
-                .setPositiveButton("Add") { _, _ ->
+                .setPositiveButton("Add", null)
+                .setNegativeButton("Cancel", null)
+                .create()
+
+            dialog.setOnShowListener {
+                val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                val negative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+
+                positive.setTextColor(ContextCompat.getColor(requireContext(), R.color.tiel))
+                negative.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+
+
+                positive.setOnClickListener {
                     val newCriteria = inputField.text.toString()
                     if (newCriteria.isNotBlank()) {
                         adapter.addQuestion(newCriteria)
+                        dialog.dismiss()
                     } else {
                         Toast.makeText(requireContext(), "Please enter a valid criteria", Toast.LENGTH_SHORT).show()
                     }
                 }
-                .setNegativeButton("Cancel", null)
-                .show()
+            }
+
+            dialog.show()
         }
         binding.seekBarRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.seekBarRecyclerView.adapter = adapter

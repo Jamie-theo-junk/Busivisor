@@ -13,7 +13,7 @@ class BusinessPageOwnRecyclerAdapter(
     private val idea: BusinessIdea
 ) : RecyclerView.Adapter<BusinessPageOwnRecyclerAdapter.ViewHolder>() {
 
-    private val analysisList: List<Pair<String, Int>> = idea.personalSkills.toList()
+    private val analysisList: List<Pair<String, Int>> = idea.ownCriteria.toList()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val keyText: TextView = itemView.findViewById(R.id.question)

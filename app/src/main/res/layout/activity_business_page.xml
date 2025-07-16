@@ -116,7 +116,9 @@
                         app:cardBackgroundColor="@color/offYellow"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/textOne"
+                        android:layout_marginEnd="2dp"/>
                     <TextView
                         android:id="@+id/textOne"
                         android:layout_width="wrap_content"
@@ -142,7 +144,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/rankOne"
                     android:layout_marginStart="15dp"
                     >
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/circleTwo"
                         android:layout_width="10dp"
@@ -152,7 +153,9 @@
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/textTwo"
+                        android:layout_marginEnd="2dp"/>
 
                     <TextView
                         android:id="@+id/textTwo"
@@ -187,7 +190,9 @@
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/textThree"
+                        android:layout_marginEnd="2dp"/>
 
                     <TextView
                         android:id="@+id/textThree"
@@ -203,6 +208,7 @@
                         app:layout_constraintStart_toEndOf="@id/circleThree"
                         app:layout_constraintTop_toTopOf="@id/circleThree"
                         />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:id="@+id/rankButton"
@@ -239,33 +245,44 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="20dp"
                 android:textSize="20sp"
-                android:textColor="@color/black"/>
-
+                android:textColor="@color/black"
+                android:fontFamily="@font/open_sans_semi_bold"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/descriptionConstraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.061"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toStartOf="@id/descriptionTitle"
+                app:layout_constraintTop_toBottomOf="@id/descriptionTitle">
                 <TextView
                     android:id="@+id/descriptionTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:text="Description:"
                     android:textColor="@color/black"
                     android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.06"
-                    android:layout_marginEnd="20dp"
-                    app:layout_constraintStart_toStartOf="@id/descriptionTitle"
-                    app:layout_constraintTop_toBottomOf="@id/descriptionTitle" />
-
+                    android:maxWidth="300dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/open_sans_regular"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:id="@+id/scoreAnswersTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Score Answers"
-                    app:layout_constraintTop_toBottomOf="@id/descriptionTxt"
+                    app:layout_constraintTop_toBottomOf="@id/descriptionConstraint"
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:layout_marginTop="30dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/open_sans_semi_bold"
                     />
 
                 <TextView
@@ -280,6 +297,7 @@
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/businessAnalysisRec"
+                    android:fontFamily="@font/open_sans_semi_bold"
                     />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/businessAnalysisRec"
@@ -299,6 +317,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/open_sans_semi_bold"
                     />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/personalSkillsRec"
@@ -319,7 +338,9 @@
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_goneMarginTop="10dp"
+                    android:fontFamily="@font/open_sans_semi_bold"
                     />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/ownCriteriaRec"
                     android:layout_width="match_parent"

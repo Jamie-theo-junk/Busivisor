@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="wrap_content"
     android:layout_height="150dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
@@ -23,6 +23,9 @@
     app:layout_constraintBottom_toTopOf="@id/answer"
     android:textSize="16sp"
     android:textAlignment="center"
+    android:maxWidth="250dp"
+    android:minWidth="200dp"
+    android:padding="10dp"
     android:fontFamily="@font/open_sans_semi_bold"
     android:textColor="@color/white"
     />

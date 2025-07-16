@@ -52,7 +52,11 @@ class PersonalSkillsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val questions = Questions().personalSkillsQuestions
-        val adapter = PersonalSkillsRecyclerAdapter(questions) { updatedMap ->
+        val adapter = SeekbarRecyclerAdapter(questions as MutableMap<String, List<String>>,1) { allAnswered, updatedMap ->
+
+            if (allAnswered) {
+                binding.nextCard.isEnabled = true
+            }
             viewModel.updatePersonalSkills(updatedMap)
         }
 

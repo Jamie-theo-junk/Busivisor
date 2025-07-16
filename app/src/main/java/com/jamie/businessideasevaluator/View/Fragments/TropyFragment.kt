@@ -53,5 +53,14 @@ class TropyFragment : Fragment() {
             adapter.updateList(ideas)
         }
         viewModel.loadRankedIdeas()
+
+        viewModel.ideas.observe(viewLifecycleOwner) { ideas ->
+            if (!ideas.isNullOrEmpty()) {
+                val bestIdea = ideas[0] // or however you define "best"
+                binding.dailyQuote.text = "Looks like your best idea was \"${bestIdea.businessName}\""
+            } else {
+                binding.dailyQuote.text = "No ideas yet. Time to brainstorm!"
+            }
+        }
     }
 }

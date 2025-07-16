@@ -1,47 +1,47 @@
 package com.jamie.businessideasevaluator.Data.SD
 
+import kotlin.collections.Map
+
 class Questions {
-    val businessAnalysisQuestions = listOf(
-        "Has it been done before? (newer = higher score)",
-        "Does it do things in a more valuable way?",
-        "Do I solve a problem?",
-        "Do I create delight?",
-        "Do I give a benefit?",
-        "Can I have competitive advantage?",
-        "Is the space crowded? (more crowded = lower #)",
-        "Does it have better value than rivals?",
-        "Is it rare? (rarer = higher #)",
-        "It can't be copied (easily copied = lower #)",
-        "It can't be substituted (easily substituted = lower #)",
-        "Do I solve a need?",
-        "Is it scalable?",
-        "Is it uncomplicated?",
-        "Predictable customer base? (more = higher #)",
-        "Predictable revenue? (more = higher #)",
-        "High income potential?",
-        "Does it have a low entry barrier? (low = lower #)",
-        "Is it in a blue ocean, or red ocean? (blue = high #)"
+    val businessAnalysisQuestions: Map<String, List<String>> = mapOf(
+        "Has it been done before?" to listOf("No", "Yes"),
+        "Does it do things in a more valuable way?" to listOf("No", "Yes"),
+        "Do I solve a problem?" to listOf("No", "Yes"),
+        "Do I create delight?" to listOf("No", "Yes"),
+        "Do I give a benefit?" to listOf("No", "Yes"),
+        "Can I have competitive advantage?" to listOf("No", "Yes"),
+        "Is the space crowded?" to listOf("Crowded", "Empty"),
+        "Does it have better value than rivals?" to listOf("No", "Yes"),
+        "Is it rare?" to listOf("Common", "Rare"),
+        "Can it be copied" to listOf("Easily", "Difficult"),
+        "Can it  be substituted" to listOf("Yes", "Not Really"),
+        "Do I solve a need?" to listOf("No", "Yes"),
+        "Is it scalable?" to listOf("No", "Yes"),
+        "Is it uncomplicated?" to listOf("No", "Yes"),
+        "Predictable customer base?" to listOf("Unpredictable", "Predictable"),
+        "Predictable revenue?" to listOf("No", "Yes"),
+        "High income potential?" to listOf("No", "Yes"),
+        "Does it have a low entry barrier?" to listOf("Low", "High"),
+        "Is it in a blue ocean, or red ocean?" to listOf("Red Ocean", "Blue Ocean")
     )
-   val personalSkillsQuestions = listOf(
-        "Does it apply effectuation:",
-        "Does it fit my personality:",
-        "Am I interested in this:",
-        "Do I have passion for this:",
-        "Do I have the expertise:",
-        "Do I have knowledge:",
-        "Can expertise be acquired:",
-        "Can I network in this field:",
-        "Can I execute it:",
-        "Do I have the needed resources:",
-        "That's obvious:",
-        "Can I potentially achieve my goals:",
-        "What is the probability for failure(Low probability higher number):",
-        "Do I have support from family/friends:"
+   val personalSkillsQuestions: Map<String, List<String>> = mapOf(
+        "Does it apply effectuation:" to listOf("No", "Yes"),
+        "Does it fit my personality:" to listOf("No", "Yes"),
+        "Am I interested in this:" to listOf("No", "Yes"),
+        "Do I have passion for this:" to listOf("No", "Yes"),
+        "Do I have the expertise:" to listOf("No", "Yes"),
+        "Do I have knowledge:" to listOf("No", "Yes"),
+        "Can expertise be acquired:" to listOf("No", "Yes"),
+        "Can I network in this field:" to listOf("No", "Yes"),
+        "Can I execute it:" to listOf("No", "Yes"),
+        "Do I have the needed resources:" to listOf("No", "Yes"),
+        "Can I potentially achieve my goals:" to listOf("No", "Yes"),
+        "What is the probability for failure:" to listOf("Low", "High"),
+        "Do I have support from family/friends:" to listOf("No", "Yes"),
     )
-    val ownCriteria = listOf(
-        "Do Personal Freedom:",
-        "Is it Membership Based:",
-        "Is it Meaningful for you:",
-        "Is it Environmentally Friendly:"
+    val ownCriteria: Map<String, List<String>> = mapOf(
+        "Do you have Personal Freedom:" to listOf("No", "Yes"),
+        "Is it Membership Based:" to listOf("No", "Yes"),
+        "Is it Meaningful for you:" to listOf("No", "Yes")
     )
 }

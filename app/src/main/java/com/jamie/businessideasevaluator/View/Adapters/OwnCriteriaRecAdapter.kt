@@ -28,10 +28,6 @@ class OwnCriteriaRecAdapter (
         holder.bind(question)
     }
 
-    fun addQuestion(newQuestion: String) {
-        questions.add(newQuestion)
-        notifyItemInserted(questions.size - 1)
-    }
 
     override fun getItemCount(): Int = questions.size
 

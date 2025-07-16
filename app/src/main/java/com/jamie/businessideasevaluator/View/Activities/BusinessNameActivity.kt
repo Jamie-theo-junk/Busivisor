@@ -28,12 +28,16 @@ class BusinessNameActivity : AppCompatActivity() {
         val name = binding.businessNameInput
         val description = binding.businessDescriptionInput
         val saveButton = binding.saveCard
+        val backButton = binding.backBtn
+        backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         saveButton.setOnClickListener {
             val businessName = name.text.toString().trim()
             val businessDescription = description.text.toString().trim()
 
 
-            if (businessName.isEmpty() && businessDescription.isEmpty()) {
+            if (businessName.isEmpty() || businessDescription.isEmpty()) {
                 Toast.makeText(this, "Please enter a business name or description", Toast.LENGTH_SHORT).show()
             } else {
 

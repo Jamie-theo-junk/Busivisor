@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     tools:context=".View.Activities.BusinessNameActivity">
 
     <!-- Scrollable content -->
@@ -27,23 +28,41 @@
                 android:background="@drawable/more_button"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
-                android:contentDescription="Back Button" />
+                android:contentDescription="Back Button"
+                android:textCursorDrawable="@drawable/cursor_orange"/>
 
             <EditText
                 android:id="@+id/businessNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Business Idea Name"
-                android:padding="16dp" />
+                android:hint="Business Name"
+                android:padding="16dp"
+                android:textSize="24sp"
+                android:fontFamily="@font/open_sans_regular"
+                android:textColorHint="#CC313131"
+                android:background="@null"
+                android:textColor="#000000"
+                android:imeOptions="actionNext"
+                android:inputType="textCapSentences"
+                android:textCursorDrawable="@drawable/cursor_orange"/>
 
             <EditText
                 android:id="@+id/businessDescriptionInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Business Idea Description"
-                android:padding="16dp" />
+                android:hint="Business Description"
+                android:padding="16dp"
+                android:inputType="textMultiLine|textCapSentences"
+                android:lines="3"
+                android:textCursorDrawable="@drawable/cursor_orange"
+                android:textColorHint="#CC313131"
+                android:textColor="#000000"
+                android:gravity="top|start"
+                android:maxLines="5"
+                android:imeOptions="actionDone"
+                android:background="@drawable/orange_border"/>
         </LinearLayout>
     </ScrollView>
 

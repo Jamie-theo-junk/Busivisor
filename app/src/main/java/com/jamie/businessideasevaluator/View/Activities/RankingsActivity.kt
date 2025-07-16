@@ -30,7 +30,9 @@ class RankingsActivity : AppCompatActivity() {
         businessNameTextView.text = businessName
         val adapter = BusinessIdeaViewPagerAdapter(this, businessName, businessDescription)
         binding.viewPager.adapter = adapter
-
+        binding.backBtn.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         viewPager = binding.viewPager
         viewPager.isUserInputEnabled = false
