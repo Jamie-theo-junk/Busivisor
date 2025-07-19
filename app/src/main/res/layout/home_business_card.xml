@@ -78,6 +78,7 @@
         android:maxWidth="150dp"
         android:text="TextPlaceholder"
         android:fontFamily="@font/open_sans_light"
+        android:ellipsize="end"
         android:maxLines="3"/>
 
     <com.github.mikephil.charting.charts.PieChart

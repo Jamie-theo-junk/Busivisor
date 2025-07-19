@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScroll"
         android:layout_width="match_parent"
@@ -30,7 +29,7 @@
                     android:layout_width="150dp"
                     android:layout_height="300dp"
                     android:contentDescription="picture of girl"
-                    android:src="@drawable/girl_confused_png"
+                    android:src="@drawable/girl_confused"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/dailyQuote"
                     android:layout_marginEnd="30dp"/>

@@ -25,6 +25,7 @@ class TrophyRecyclerAdapter(private var ideas: List<BusinessIdea>,private val co
             card.setOnClickListener {
                 val intent = Intent(context, BusinessPageActivity::class.java)
                 intent.putExtra("idea_position", adapterPosition)
+                intent.putExtra("DateId",idea.date.time)
                 intent.putExtra("fragment", 2)
                 context.startActivity(intent)
             }

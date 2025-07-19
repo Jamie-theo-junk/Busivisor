@@ -210,29 +210,32 @@
                         />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/rankButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/businessPieChart"
-                    app:layout_constraintEnd_toStartOf="@id/numberButton"
-                    android:text="Rank:"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/open_sans_bold"/>
+                    android:fontFamily="@font/open_sans_bold"
+                    android:text="Overall \n Rank:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toStartOf="@id/numberButton"
+                    app:layout_constraintTop_toBottomOf="@id/businessPieChart" />
+
                 <TextView
                     android:id="@+id/numberButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/businessPieChart"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="25dp"
+                    android:fontFamily="@font/open_sans_semi_bold"
                     android:text="#21"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
-                    android:fontFamily="@font/open_sans_semi_bold"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginTop="10dp"/>
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rankButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
             <TextView

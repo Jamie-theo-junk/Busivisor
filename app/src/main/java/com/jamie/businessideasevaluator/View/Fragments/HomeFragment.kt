@@ -157,10 +157,10 @@ class HomeFragment : Fragment() {
         val imageView = binding.girlImage
 
         if (!ideas.isNullOrEmpty()) {
-            imageView.setImageResource(R.drawable.girl_idea_png)
+            imageView.setImageResource(R.drawable.girl_image_regular)
             binding.dailyQuote.text = businessAdvice
         } else {
-            imageView.setImageResource(R.drawable.girl_confused_png)
+            imageView.setImageResource(R.drawable.girl_confused)
         }
     }
 
