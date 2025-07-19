@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.jamie.businessideasevaluator.Data.Db.DbHelper
 import com.jamie.businessideasevaluator.Data.Model.BusinessIdea
 import com.jamie.businessideasevaluator.Data.Repository.BusinessIdeaRepository
+import java.util.Date
 
 
 class BusinessPageViewModel() : ViewModel() {
@@ -36,6 +37,15 @@ class BusinessPageViewModel() : ViewModel() {
             _selectedIdea.value = it
         }
     }
+
+    fun loadIdeaByDateId(date: Long) {
+        val allIdeas = repository.getAllRankedIdeas()
+        val match = allIdeas.find { it.date.time == date }
+        match?.let {
+            _selectedIdea.value = it
+        }
+    }
+
 
     fun getBusinessIdeaRank(targetIdea: BusinessIdea): Int {
         val data = repository.getAllRankedIdeas()

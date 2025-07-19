@@ -45,6 +45,7 @@ class BusinessPageActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         viewModel.initRepository(this)
+        val dateId = intent.getLongExtra("DateId",0)
         val businessPosition = intent.getIntExtra("idea_position",-1)
         val fragment = intent.getIntExtra("fragment",-1)
 
@@ -55,7 +56,7 @@ class BusinessPageActivity : AppCompatActivity() {
                 }
 
                 2 -> {
-                    viewModel.loadRankedIdeaByPosition(businessPosition)
+                    viewModel.loadIdeaByDateId(dateId)
                 }
             }
         }
@@ -76,7 +77,7 @@ class BusinessPageActivity : AppCompatActivity() {
 
             setupPieChart(binding.businessPieChart,idea.businessTags)
 
-            // Gets tag values and total
+
             val tagEntries = idea.businessTags.entries.toList()
             val total = tagEntries.sumOf { it.value }
 
@@ -114,7 +115,7 @@ class BusinessPageActivity : AppCompatActivity() {
             ContextCompat.getColor(context, R.color.paleOrange)
         )
 
-        // Repeat or cycle colors if needed
+
         val repeatedColors = List(entries.size) { index -> colors[index % colors.size] }
 
         dataSet.colors = repeatedColors

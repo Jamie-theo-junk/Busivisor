@@ -81,6 +81,29 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
                 />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Top Idea By:"
+        app:layout_constraintBottom_toBottomOf="@+id/sortSpinner"
+        app:layout_constraintEnd_toStartOf="@+id/sortSpinner"
+        app:layout_constraintTop_toTopOf="@+id/sortSpinner"
+        android:layout_marginEnd="5dp"
+        android:textColor="@color/black"/>
+    <Spinner
+        android:id="@+id/sortSpinner"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/trophy_rec"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="5dp"
+        android:background="@drawable/sort_spinner"
+        />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trophy_rec"
                 android:layout_width="match_parent"

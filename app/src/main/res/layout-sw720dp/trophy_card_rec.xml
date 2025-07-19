@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:elevation="5dp"
+    app:cardBackgroundColor="@color/cream"
+    android:id="@+id/homeCardView">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/businessName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Business Idea"
+            android:fontFamily="@font/open_sans_regular"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:maxWidth="200dp"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/businessDescriptionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/businessName"
+            app:layout_constraintStart_toStartOf="@id/businessName"
+            android:text="Description:"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/open_sans_regular"
+            />
+        <TextView
+            android:id="@+id/businessDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/businessDescriptionTitle"
+            app:layout_constraintStart_toStartOf="@id/businessDescriptionTitle"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:maxWidth="150dp"
+            android:text="TextPlaceholder"
+            android:fontFamily="@font/open_sans_light"
+            android:maxLines="3"/>
+
+        <TextView
+            android:id="@+id/rankTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Rank"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:layout_marginRight="40dp"
+            />
+        <TextView
+            android:id="@+id/rankTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/rankTitle"
+            app:layout_constraintStart_toStartOf="@id/rankTitle"
+            app:layout_constraintTop_toBottomOf="@id/rankTitle"
+            android:text="#1"
+            android:fontFamily="@font/open_sans_regular"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
