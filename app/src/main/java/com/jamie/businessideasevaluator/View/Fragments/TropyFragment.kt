@@ -64,11 +64,17 @@ class TropyFragment : Fragment() {
             if (!ideas.isNullOrEmpty()) {
                 val bestIdea = ideas[0]
                 binding.dailyQuote.text = "Looks like your best idea was \"${bestIdea.businessName}\""
+
+                if (!ideas.isNullOrEmpty()) {
+                    val sortedIdeas = sortIdeas(ideas, " ")
+                    adapter.updateList(sortedIdeas)
+                }
             } else {
                 adapter.updateList(emptyList())
                 binding.dailyQuote.text = "No ideas yet. Time to brainstorm!"
             }
         }
+
 
         binding.sortSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

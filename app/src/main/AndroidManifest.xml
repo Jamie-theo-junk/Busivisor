@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:name=".View.Adapters.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,6 +16,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusinessIdeasEvaluator"
         tools:targetApi="31">
+        <activity
+            android:name=".View.Activities.BookAdActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".View.Activities.TutorialCompleted"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".View.Activities.TutorialExampleActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".View.Activities.TutorialStartUpActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".View.Activities.BusinessPageActivity"
             android:exported="false"
@@ -23,12 +43,12 @@
         <activity
             android:name=".View.Activities.RankingsActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".View.Activities.BusinessNameActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".View.Activities.MainActivity"
             android:exported="true"
@@ -39,6 +59,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5672195872456028~3074775300" />
     </application>
 
 </manifest>

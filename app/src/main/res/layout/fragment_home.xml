@@ -29,7 +29,7 @@
                     android:id="@+id/girlImage"
                     android:layout_width="143dp"
                     android:layout_height="215dp"
-                    android:src="@drawable/girl_confused"
+                    android:src="@drawable/business_man_confused"
                     android:contentDescription="picture of girl"
                     android:layout_marginStart="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +92,9 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/dark_orange"
+        />
 </RelativeLayout>
 
     </RelativeLayout>

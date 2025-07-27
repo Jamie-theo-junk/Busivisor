@@ -33,9 +33,9 @@ class PersonalSkillsRecyclerAdapter (
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(question: String) {
-            binding.questionName.text = question
+            binding.questionName.text = "$question?"
 
-            // Initialize with default or existing value
+
             binding.customSeekBar.progress = answersMap[question] ?: 50
 
             binding.customSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
