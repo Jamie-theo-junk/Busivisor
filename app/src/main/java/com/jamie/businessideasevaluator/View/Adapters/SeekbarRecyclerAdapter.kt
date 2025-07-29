@@ -101,6 +101,21 @@ class SeekbarRecyclerAdapter(
             binding.positiveOption.text = options[1]
             binding.customSeekBar.progress = answersMap[question] ?: 0
 
+            binding.questionImage.visibility = if (position == 0) View.VISIBLE else View.GONE
+            binding.questionImage.setOnClickListener {
+                val context = itemView.context
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_question, null)
+                val infoText = dialogView.findViewById<TextView>(R.id.info)
+                infoText.text = "Effectuation emphasizes leveraging the resources, knowledge, skills, and network that an entrepreneur already possesses"
+
+                AlertDialog.Builder(context)
+                    .setTitle("What is effectuation")
+                    .setView(dialogView)
+                    .setPositiveButton("Close") { d, _ -> d.dismiss() }
+                    .create().show()
+            }
+
+
             binding.customSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (fromUser) {
