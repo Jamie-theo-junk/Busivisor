@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
@@ -23,6 +24,7 @@ class CompletedTickActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         val animationView = findViewById<LottieAnimationView>(R.id.animationView)
 
         animationView.addAnimatorListener(object : Animator.AnimatorListener {
@@ -32,7 +34,9 @@ class CompletedTickActivity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(p0: Animator) {
-                val intent = Intent(this@CompletedTickActivity, MainActivity::class.java)
+                val intent = Intent(this@CompletedTickActivity, MainActivity::class.java).apply{
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
                 startActivity(intent)
                 finish()
             }

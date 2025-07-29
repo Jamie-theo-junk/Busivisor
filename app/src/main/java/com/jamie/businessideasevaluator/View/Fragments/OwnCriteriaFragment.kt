@@ -48,7 +48,7 @@ class OwnCriteriaFragment : Fragment() {
             if (allAnswered) {
                 binding.saveCard.isEnabled = true
             }
-            viewModel.updateOwnCriteria(updatedMap)
+            viewModel.updateOwnCriteria(updatedMap as MutableMap<String, Int>)
         }
         binding.addCriteriaCard.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_add_criteria, null)
@@ -65,10 +65,8 @@ class OwnCriteriaFragment : Fragment() {
                 val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 val negative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
 
-
-                positive.setTextColor(ContextCompat.getColor(requireContext(), R.color.tiel))
+                positive.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_orange))
                 negative.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
-
 
                 positive.setOnClickListener {
                     val newCriteria = inputField.text.toString()

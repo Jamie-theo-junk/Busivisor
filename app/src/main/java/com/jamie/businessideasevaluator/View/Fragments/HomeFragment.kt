@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jamie.businessideasevaluator.Data.Db.DbHelper
 import com.jamie.businessideasevaluator.Data.Model.BusinessIdea
 import com.jamie.businessideasevaluator.Data.SD.Qoutes
 import com.jamie.businessideasevaluator.R
@@ -25,7 +24,6 @@ import com.jamie.businessideasevaluator.View.Adapters.HomeRecAdapter
 import com.jamie.businessideasevaluator.View.Adapters.RecyclerItemDecoration
 import com.jamie.businessideasevaluator.ViewModel.HomeViewModel
 import com.jamie.businessideasevaluator.databinding.FragmentHomeBinding
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -79,7 +77,7 @@ class HomeFragment : Fragment() {
         val bottomMarginPx = resources.getDimensionPixelSize(R.dimen.last_item_margin)
         recyclerView.addItemDecoration(RecyclerItemDecoration(bottomMarginPx))
 
-        // Setup swipe to remove
+
         val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -157,12 +155,13 @@ class HomeFragment : Fragment() {
         val imageView = binding.girlImage
 
         if (!ideas.isNullOrEmpty()) {
-            imageView.setImageResource(R.drawable.girl_image_regular)
+            imageView.setImageResource(R.drawable.business_man_idea_large)
             binding.dailyQuote.text = businessAdvice
         } else {
-            imageView.setImageResource(R.drawable.girl_confused)
+            imageView.setImageResource(R.drawable.business_man_confused)
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

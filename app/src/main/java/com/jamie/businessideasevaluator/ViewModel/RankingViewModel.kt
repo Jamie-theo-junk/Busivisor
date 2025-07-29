@@ -37,8 +37,8 @@ class RankingViewModel() : ViewModel() {
         personalSkills.putAll(data)
     }
 
-    fun updateOwnCriteria(data: Map<String, Int>) {
-        ownCriteria.putAll(data)
+    fun updateOwnCriteria(data: MutableMap<String, Int>) {
+        ownCriteria = data
     }
     fun finalizeAndInsertIdea(
         name: String,

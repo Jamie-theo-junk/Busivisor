@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">BusiVisor</string>
+    <string name="app_name">Ideaguage</string>
     <string name="Today">Today</string>
     <string name="dailyText">Wow Such Empty?</string>
-<string-array name="sortOptions">
-    <item>Overall</item>
-    <item>Business Analysis</item>
-    <item>Personal Skills</item>
-    <item>Own Criteria</item>
-</string-array>
+    <string-array name="sortOptions">
+        <item>Overall</item>
+        <item>Business Analysis</item>
+        <item>Personal Skills</item>
+        <item>Own Criteria</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

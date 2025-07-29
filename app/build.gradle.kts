@@ -28,6 +28,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -58,6 +59,12 @@ dependencies {
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("com.airbnb.android:lottie:6.6.7")
     implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.8.3")
 
 
+
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime:2.0.0")
+    annotationProcessor ("androidx.lifecycle:lifecycle-compiler:2.0.0")
 }
