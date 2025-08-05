@@ -15,6 +15,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.jamie.businessideasevaluator.Data.SD.SharedPreferenceManager
 import com.jamie.businessideasevaluator.R
 import com.jamie.businessideasevaluator.databinding.ActivityMainBinding
@@ -30,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(binding.root)
+
+        MobileAds.initialize(this) {}
+
         val prefs = getSharedPreferences("ad_prefs", Context.MODE_PRIVATE)
         prefs.edit().putBoolean("ad_shown", false).apply()
         prefManager = SharedPreferenceManager(this)
@@ -68,6 +76,29 @@ class MainActivity : AppCompatActivity() {
             markFabTutorialAsShown()
             val intent = Intent(this, BusinessNameActivity::class.java)
             startActivity(intent)
+        }
+
+    }
+
+    private fun adInitial(){
+         lateinit var mInterstitialAd: InterstitialAd
+         var isAdLoaded = false
+
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    mInterstitialAd = ad
+                    isAdLoaded = true
+                }
+
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Log.d("AdMob", "Ad failed to load: ${adError.message}")
+                    isAdLoaded = false
+                }
+            })
+        if (isAdLoaded) {
+            mInterstitialAd.show(this)
         }
 
     }
@@ -132,7 +163,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        // Use shared preferences to persist ad display
+
         val prefs = getSharedPreferences("ad_prefs", Context.MODE_PRIVATE)
         val adShown = prefs.getBoolean("ad_shown", false)
 
@@ -150,6 +181,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "onResume: ad not launched this time")
                 prefs.edit().putBoolean("ad_shown", true)
                     .apply() // Still mark it to avoid rerunning
+
+                adInitial()
             }
         }
     }

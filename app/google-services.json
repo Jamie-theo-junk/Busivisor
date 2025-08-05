@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "559821856630",
+    "project_id": "businessideaguage",
+    "storage_bucket": "businessideaguage.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559821856630:android:0475298f55b455581b2457",
+        "android_client_info": {
+          "package_name": "com.jamie.businessideasevaluator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR3Me6gVZTNZFM2G8k2Bw1Iciyg8cdGoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
