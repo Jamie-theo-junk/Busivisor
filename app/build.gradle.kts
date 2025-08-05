@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    id("com.google.gms.google-services")
 }
 
 
@@ -67,4 +69,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-extensions:2.0.0")
     implementation ("androidx.lifecycle:lifecycle-runtime:2.0.0")
     annotationProcessor ("androidx.lifecycle:lifecycle-compiler:2.0.0")
+    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    implementation("com.google.firebase:firebase-ai")
+    implementation ("com.google.firebase:firebase-analytics:21.5.0")
+
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }
