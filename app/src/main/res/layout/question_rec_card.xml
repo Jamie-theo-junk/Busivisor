@@ -47,7 +47,7 @@
         app:layout_constraintBottom_toTopOf="@id/customSeekBar"
         app:layout_constraintEnd_toEndOf="@id/customSeekBar"
         />
-        <com.jamie.businessideasevaluator.View.Adapters.CustomSeekBar
+        <com.Derick.Ideagauge.View.Adapters.CustomSeekBar
             android:id="@+id/customSeekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

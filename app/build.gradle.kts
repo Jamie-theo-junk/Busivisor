@@ -8,11 +8,11 @@ plugins {
 
 android {
 
-    namespace = "com.jamie.businessideasevaluator"
+    namespace = "com.Derick.Ideagauge"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jamie.businessideasevaluator"
+        applicationId = "com.Derick.Ideagauge"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
