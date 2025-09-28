@@ -1,12 +1,17 @@
 package com.Derick.Ideagauge.View.Activities
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -70,9 +75,35 @@ class BusinessPageActivity : AppCompatActivity() {
             }
         }
 
+
+
         viewModel.selectedIdea.observe(this) { idea ->
             binding.dailyQuote.text = idea.businessName
             binding.descriptionTxt.text = idea.businessDescription
+            binding.deleteBtnCard.setOnClickListener {
+                val dialog = AlertDialog.Builder(this)
+                    .setTitle("Are you sure you want to delete this?")
+                    .setPositiveButton("Yes", null)
+                    .setNegativeButton("Cancel", null)
+                    .create()
+
+                dialog.setOnShowListener {
+                    val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    val negative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+                    positive.setTextColor(ContextCompat.getColor(this, R.color.dark_orange))
+                    negative.setTextColor(ContextCompat.getColor(this, R.color.grey))
+
+                    positive.setOnClickListener {
+                        viewModel.deleteBusinessIdea(idea)
+                        val toMainDelete = Intent(this, MainActivity::class.java)
+                        startActivity(toMainDelete)
+                        val deleteConfirmation = Toast.makeText(this,"Deleted!", Toast.LENGTH_SHORT)
+                        deleteConfirmation.show()
+                    }
+                }
+                dialog.show()
+            }
 
             val adapterBusiness = BusinessPageBusinessRecyclerAdapter(idea)
             binding.businessAnalysisRec.adapter = adapterBusiness

@@ -45,6 +45,9 @@ class BusinessPageViewModel() : ViewModel() {
         }
     }
 
+    fun deleteBusinessIdea(targetIdea: BusinessIdea){
+        repository.removeBusinessIdea(targetIdea)
+    }
 
     fun getBusinessIdeaRank(targetIdea: BusinessIdea): Int {
         val data = repository.getAllRankedIdeas()
