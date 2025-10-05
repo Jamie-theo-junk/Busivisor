@@ -27,6 +27,7 @@ class TrophyRecyclerAdapter(private var ideas: List<BusinessIdea>,private val co
                 intent.putExtra("idea_position", adapterPosition)
                 intent.putExtra("DateId",idea.date.time)
                 intent.putExtra("fragment", 2)
+                intent.putExtra("show_interstitial_now", true)
                 context.startActivity(intent)
             }
         }

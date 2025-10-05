@@ -32,9 +32,11 @@ class CompletedTickActivity : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(p0: Animator) {
-                val intent = Intent(this@CompletedTickActivity, MainActivity::class.java).apply{
+                val intent = Intent(this@CompletedTickActivity, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    putExtra("show_interstitial_now", true)
                 }
+
                 startActivity(intent)
                 finish()
             }

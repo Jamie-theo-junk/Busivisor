@@ -17,7 +17,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     viewBinding{
@@ -63,9 +63,7 @@ dependencies {
     implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
     implementation("com.google.android.gms:play-services-ads:23.0.0")
     implementation("androidx.lifecycle:lifecycle-process:2.8.3")
-
-
-
+    implementation("androidx.multidex:multidex:2.0.1")
     implementation ("androidx.lifecycle:lifecycle-extensions:2.0.0")
     implementation ("androidx.lifecycle:lifecycle-runtime:2.0.0")
     annotationProcessor ("androidx.lifecycle:lifecycle-compiler:2.0.0")

@@ -44,6 +44,10 @@ class BusinessPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         FirebaseApp.initializeApp(this)
+        if (intent.getBooleanExtra("show_interstitial_now", false)) {
+            com.Derick.Ideagauge.View.Adapters.AdsManager.showIfReady(this)
+        }
+
         binding = ActivityBusinessPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         lateinit var prompt:String

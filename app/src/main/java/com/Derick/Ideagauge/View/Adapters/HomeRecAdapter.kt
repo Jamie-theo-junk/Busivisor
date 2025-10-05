@@ -1,5 +1,7 @@
 package com.Derick.Ideagauge.View.Adapters
 
+
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.text.format.DateUtils
@@ -23,10 +25,11 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-
-class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val context:Context,
-                     private val onItemRemove: (BusinessIdea) -> Unit) :
-    RecyclerView.Adapter<HomeRecAdapter.BusinessIdeaViewHolder>() {
+class HomeRecAdapter(
+    private var ideas: MutableList<BusinessIdea>,
+    private val context: Context,
+    private val onItemRemove: (BusinessIdea) -> Unit
+) : RecyclerView.Adapter<HomeRecAdapter.BusinessIdeaViewHolder>() {
 
     inner class BusinessIdeaViewHolder(private val binding: HomeBusinessCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,10 +38,8 @@ class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val co
             binding.businessName.text = idea.businessName
             binding.businessDescription.text = idea.businessDescription
 
-
             val currentDate = idea.date
             val previousDate = previousIdea?.date
-
             val formattedDate = getFormattedDate(currentDate)
 
             if (previousDate != null && isSameDay(currentDate, previousDate)) {
@@ -48,36 +49,35 @@ class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val co
                 binding.date.text = formattedDate
             }
 
-
             setupPieChart(binding.businessPieChart, idea.businessTags)
 
-
+            // Top 3 tags as text
             val tagEntries = idea.businessTags.entries.toList()
-            val total = tagEntries.sumOf { it.value }
-
+            val total = tagEntries.sumOf { it.value }.coerceAtLeast(1)
             val textViews = listOf(binding.textOne, binding.textTwo, binding.textThree)
-
             for (i in tagEntries.indices.take(3)) {
-                val label = tagEntries[i].key
-                val value = tagEntries[i].value.toFloat()
-                val percent = (value / total) * 100
+                val (label, value) = tagEntries[i]
+                val percent = (value.toFloat() / total) * 100f
                 textViews[i].text = "$label: ${"%.0f".format(percent)}%"
             }
-
-
-            // Clear any unused text views
-            for (i in tagEntries.size until 3) {
-                textViews[i].text = ""
-            }
-
+            for (i in tagEntries.size until 3) textViews[i].text = ""
 
             binding.homeCardView.setOnClickListener {
-                val intent = Intent(context, BusinessPageActivity::class.java)
-                intent.putExtra("idea_position", adapterPosition)
-                intent.putExtra("fragment", 1)
+                // Navigate instantly
+                val intent = Intent(context, BusinessPageActivity::class.java).apply {
+                    putExtra("idea_position", adapterPosition)
+                    putExtra("fragment", 1)
+                    putExtra("show_interstitial_now", true)
+                }
                 context.startActivity(intent)
             }
         }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        // Preload interstitial early for faster availability later
+        AdsManager.preload(recyclerView.context.applicationContext)
     }
 
     fun updateList(newItems: List<BusinessIdea>) {
@@ -89,23 +89,17 @@ class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val co
         val itemToRemove = ideas[position]
         onItemRemove(itemToRemove)
     }
+
     fun removeConfirmed(position: Int) {
         ideas.removeAt(position)
         notifyItemRemoved(position)
     }
 
-    fun getIdeaPosition(idea: BusinessIdea): Int {
-        return ideas.indexOf(idea)
-    }
+    fun getIdeaPosition(idea: BusinessIdea): Int = ideas.indexOf(idea)
 
-    private fun getFormattedDate(date: Date): String {
-        return if (DateUtils.isToday(date.time)) {
-            "Today"
-        } else {
-            val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-            formatter.format(date)
-        }
-    }
+    private fun getFormattedDate(date: Date): String =
+        if (DateUtils.isToday(date.time)) "Today"
+        else SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
 
     private fun isSameDay(date1: Date, date2: Date): Boolean {
         val cal1 = Calendar.getInstance().apply { time = date1 }
@@ -114,19 +108,12 @@ class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val co
                 cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BusinessIdeaViewHolder {
-        val binding =
-            HomeBusinessCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusinessIdeaViewHolder {
+        val binding = HomeBusinessCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BusinessIdeaViewHolder(binding)
     }
 
-    override fun onBindViewHolder(
-        holder: BusinessIdeaViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: BusinessIdeaViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder: position: $position")
         val idea = ideas[position]
         val previousIdea = if (position > 0) ideas[position - 1] else null
@@ -135,55 +122,36 @@ class HomeRecAdapter(private var ideas: MutableList<BusinessIdea>,private val co
 
     override fun getItemCount(): Int = ideas.size
 
-//    fun updateList(newIdeas: List<BusinessIdea>) {
-//        ideas = newIdeas
-//        notifyDataSetChanged()
-//    }
-
     private fun setupPieChart(pieChart: PieChart, tags: Map<String, Int>) {
         if (tags.isEmpty()) return
-
         val entries = tags.map { PieEntry(it.value.toFloat()) }
-
         val dataSet = PieDataSet(entries, "")
 
-
-        val context = pieChart.context
+        val c = pieChart.context
         val colors = listOf(
-            ContextCompat.getColor(context, R.color.offYellow),
-            ContextCompat.getColor(context, R.color.tan),
-            ContextCompat.getColor(context, R.color.paleOrange)
+            ContextCompat.getColor(c, R.color.offYellow),
+            ContextCompat.getColor(c, R.color.tan),
+            ContextCompat.getColor(c, R.color.paleOrange)
         )
-
-        // Repeat or cycle colors if needed
-        val repeatedColors = List(entries.size) { index -> colors[index % colors.size] }
-
-        dataSet.colors = repeatedColors
+        dataSet.colors = List(entries.size) { i -> colors[i % colors.size] }
         dataSet.sliceSpace = 2f
         dataSet.valueTextSize = 0f
-
         dataSet.valueFormatter = object : ValueFormatter() {
             override fun getPieLabel(value: Float, pieEntry: PieEntry?): String = ""
         }
 
-        val data = PieData(dataSet)
-        pieChart.data = data
-
+        pieChart.data = PieData(dataSet)
         pieChart.description.isEnabled = false
         pieChart.legend.isEnabled = false
         pieChart.setDrawEntryLabels(false)
         pieChart.setUsePercentValues(false)
-
         pieChart.setDrawHoleEnabled(true)
         pieChart.holeRadius = 70f
         pieChart.transparentCircleRadius = 75f
-
         pieChart.invalidate()
     }
 
-
-    companion object{
+    companion object {
         private const val TAG = "HomeRecAdapter"
     }
 }
-

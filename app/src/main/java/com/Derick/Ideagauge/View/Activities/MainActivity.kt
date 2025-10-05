@@ -14,19 +14,21 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.Derick.Ideagauge.Data.SD.SharedPreferenceManager
 import com.Derick.Ideagauge.R
 import com.Derick.Ideagauge.databinding.ActivityMainBinding
+import androidx.core.content.edit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var prefManager: SharedPreferenceManager
-    private var hasCheckedAd = false
+
+
+    private var interstitialAd: InterstitialAd? = null
+    private var isLoadingInterstitial = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,25 +37,25 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(binding.root)
 
-        MobileAds.initialize(this) {}
+        MobileAds.initialize(
+            this
+        ) { }
 
-        val prefs = getSharedPreferences("ad_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putBoolean("ad_shown", false).apply()
+        val  prefs = getSharedPreferences("ad_prefs", Context.MODE_PRIVATE)
+        prefs.edit { putBoolean("ad_shown",false)}
         prefManager = SharedPreferenceManager(this)
 
-//        var randomNumber = (1..100).random()
         if (!prefManager.hasCompletedTutorial()) {
             startActivity(Intent(this, TutorialStartUpActivity::class.java))
             finish()
             return
         }
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         if (!wasFabTutorialShown()) {
             showFabTutorial()
         }
@@ -76,30 +78,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, BusinessNameActivity::class.java)
             startActivity(intent)
         }
-
-    }
-
-    private fun adInitial(){
-         lateinit var mInterstitialAd: InterstitialAd
-         var isAdLoaded = false
-
-        val adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
-            object : InterstitialAdLoadCallback() {
-                override fun onAdLoaded(ad: InterstitialAd) {
-                    mInterstitialAd = ad
-                    isAdLoaded = true
-                }
-
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    Log.d("AdMob", "Ad failed to load: ${adError.message}")
-                    isAdLoaded = false
-                }
-            })
-        if (isAdLoaded) {
-            mInterstitialAd.show(this)
-        }
-
     }
 
     private fun showFabTutorial() {
@@ -131,7 +109,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
-
         if (System.currentTimeMillis() - backPressedTime < 2000) {
             finishAffinity()
         } else {
@@ -162,7 +139,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-
         val prefs = getSharedPreferences("ad_prefs", Context.MODE_PRIVATE)
         val adShown = prefs.getBoolean("ad_shown", false)
 
@@ -173,15 +149,24 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "Chance value: $chance")
 
             if (chance <= 50) {
+                // 50%: open your “link” screen
                 Log.d(TAG, "onResume: launching BookAdActivity")
-                prefs.edit().putBoolean("ad_shown", true).apply()
+                prefs.edit { putBoolean("ad_shown", true) }
                 startActivity(Intent(this, BookAdActivity::class.java))
             } else {
-                Log.d(TAG, "onResume: ad not launched this time")
-                prefs.edit().putBoolean("ad_shown", true)
-                    .apply() // Still mark it to avoid rerunning
+                // 50%: show interstitial if ready; otherwise keep app flow and keep preloading
+                Log.d(TAG, "onResume: attempting to show interstitial ad")
+                val shown = com.Derick.Ideagauge.View.Adapters.AdsManager.showIfReady(this) // or View.Adapters.AdsManager
 
-                adInitial()
+                if (shown) {
+                    // Mark as shown only if an ad actually appeared
+                    prefs.edit { putBoolean("ad_shown", true) }
+                    Log.d(TAG, "onResume: interstitial shown")
+                } else {
+                    // Not ready this time—keep preloading for next time
+                    com.Derick.Ideagauge.View.Adapters.AdsManager.preload(this)
+                    Log.d(TAG, "onResume: interstitial not ready; preloading")
+                }
             }
         }
     }

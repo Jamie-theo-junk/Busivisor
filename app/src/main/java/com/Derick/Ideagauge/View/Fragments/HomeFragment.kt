@@ -1,5 +1,7 @@
 package com.Derick.Ideagauge.View.Fragments
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.Derick.Ideagauge.Data.Model.BusinessIdea
 import com.Derick.Ideagauge.Data.SD.Qoutes
 import com.Derick.Ideagauge.R
+import com.Derick.Ideagauge.View.Activities.MainActivity
 import com.Derick.Ideagauge.View.Adapters.HomeRecAdapter
 import com.Derick.Ideagauge.View.Adapters.RecyclerItemDecoration
 import com.Derick.Ideagauge.ViewModel.HomeViewModel
@@ -39,6 +42,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var adapter: HomeRecAdapter
+    private var index = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,13 +66,11 @@ class HomeFragment : Fragment() {
             lifecycleScope.launch {
                 val success = viewModel.removeIdea(ideaToRemove)
                 if (success) {
-                    val index = adapter.getIdeaPosition(ideaToRemove)
+                     index = adapter.getIdeaPosition(ideaToRemove)
                     if (index != -1) {
                         adapter.removeConfirmed(index)
                     }
-                    Toast.makeText(requireContext(), "Removed", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Failed to remove item", Toast.LENGTH_SHORT).show()
+
                 }
             }
         }
@@ -85,8 +87,40 @@ class HomeFragment : Fragment() {
                 target: RecyclerView.ViewHolder
             ) = false
 
+
+            override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float = 0.5f
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                adapter.removeItem(viewHolder.adapterPosition)
+                index = viewHolder.adapterPosition
+                if (index == RecyclerView.NO_POSITION) return
+
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setTitle("Are you sure you want to delete this?")
+                    .setPositiveButton("Yes", null)
+                    .setNegativeButton("Cancel", null)
+                    .create()
+
+                dialog.setOnShowListener {
+                    val positive = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    val negative = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+                    positive.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_orange))
+                    negative.setTextColor(ContextCompat.getColor(requireContext(), R.color.grey))
+
+                    positive.setOnClickListener {
+
+                        adapter.removeItem(index)
+                        Toast.makeText(requireContext(),"Deleted!", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+
+                    negative.setOnClickListener {
+
+                        adapter.notifyItemChanged(index)
+                        dialog.dismiss()
+                    }
+                }
+                dialog.show()
             }
 
             override fun onChildDraw(
@@ -94,14 +128,17 @@ class HomeFragment : Fragment() {
                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
             ) {
                 val itemView = viewHolder.itemView
+                val maxDx = itemView.width * 0.5f
+                val clampedDx = dX.coerceIn(-maxDx, maxDx)
+
                 val paint = Paint()
                 val icon = ContextCompat.getDrawable(requireContext(), android.R.drawable.ic_menu_delete)
                 val iconMargin = (itemView.height - (icon?.intrinsicHeight ?: 0)) / 2
 
-                if (dX < 0) {
+                if (clampedDx < 0) {
                     paint.color = Color.RED
                     c.drawRect(
-                        itemView.right + dX, itemView.top.toFloat(),
+                        itemView.right + clampedDx, itemView.top.toFloat(),
                         itemView.right.toFloat(), itemView.bottom.toFloat(), paint
                     )
 
@@ -125,7 +162,7 @@ class HomeFragment : Fragment() {
                     c.drawText(text, textX, textY, textPaint)
                 }
 
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(c, recyclerView, viewHolder, clampedDx, dY, actionState, isCurrentlyActive)
             }
         }
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
