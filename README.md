@@ -55,14 +55,19 @@ It’s built with a modern architecture and provides a smooth user experience wi
 
 ---
 
-## 📸 Screenshots (Example)
+## 📸 Screenshots
 
-> Replace these with your actual screenshots later  
+### First Screen
+![First Screen](Docs/first_screen.jpeg)
 
-![Idea List](docs/idea_list.jpeg)  
-![Evaluate Idea](docs/evaluate_idea.jpeg)  
-![Ranked Ideas](docs/ranked_ideas.jpeg)  
+### Add Business Idea
+![Add Business Screen](Docs/add_busi_screen.jpeg)
 
+### Create Idea
+![Create Idea](Docs/create_idea.jpeg)
+
+### View Idea Details
+![View Idea](Docs/view_idea.jpeg)
 ---
 
 ## 🧩 Future Improvements
