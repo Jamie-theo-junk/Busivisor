@@ -11,4 +11,5 @@ data class BusinessIdea(
     val businessAnalysis: Map<String, Int> = emptyMap(),
     val personalSkills: Map<String, Int> = emptyMap(),
     val ownCriteria: Map<String, Int> = emptyMap()
+    ,val aiSuggestion: String = ""
 )

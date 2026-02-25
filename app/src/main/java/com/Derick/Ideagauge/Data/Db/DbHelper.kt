@@ -10,7 +10,7 @@ import com.Derick.Ideagauge.Data.Model.BusinessIdea
 import org.json.JSONObject
 import java.util.Date
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db", null, 2) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db", null, 3) {
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
@@ -24,15 +24,18 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
                 businessTags TEXT,
                 businessAnalysis TEXT,
                 personalSkills TEXT,
-                ownCriteria TEXT
+                ownCriteria TEXT,
+                aiSuggestion TEXT
             )
             """.trimIndent()
         )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS business_ideas")
-        onCreate(db)
+        // Preserve existing data; only add new columns as needed
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE business_ideas ADD COLUMN aiSuggestion TEXT")
+        }
     }
 
     fun insertBusinessIdea(idea: BusinessIdea): Boolean {
@@ -46,11 +49,12 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
             put("businessAnalysis", JSONObject(idea.businessAnalysis).toString())
             put("personalSkills", JSONObject(idea.personalSkills).toString())
             put("ownCriteria", JSONObject(idea.ownCriteria).toString())
+            put("aiSuggestion", idea.aiSuggestion) // <-- NEW
         }
 
-        val outcomeResult = db.insert("business_ideas", null, values) > 0
-        Log.d(TAG, "insertBusinessIdea: outcome result: $outcomeResult")
-        return outcomeResult
+        val ok = db.insert("business_ideas", null, values) > 0
+        Log.d(TAG, "insertBusinessIdea: outcome result: $ok")
+        return ok
     }
 
     fun getAllBusinessIdeas(): List<BusinessIdea> {
@@ -69,6 +73,10 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
             val skills = parseJsonToMap(cursor.getString(cursor.getColumnIndexOrThrow("personalSkills")))
             val criteria = parseJsonToMap(cursor.getString(cursor.getColumnIndexOrThrow("ownCriteria")))
 
+            // aiSuggestion is new; guard if column doesn't exist on some devices
+            val aiSuggestionIdx = cursor.getColumnIndex("aiSuggestion")
+            val aiSuggestion = if (aiSuggestionIdx != -1) cursor.getString(aiSuggestionIdx) ?: "" else ""
+
             ideas.add(
                 BusinessIdea(
                     businessName = name,
@@ -78,11 +86,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
                     businessTags = tags,
                     businessAnalysis = analysis,
                     personalSkills = skills,
-                    ownCriteria = criteria
+                    ownCriteria = criteria,
+                    aiSuggestion = aiSuggestion // <-- NEW
                 )
             )
         }
-
         cursor.close()
         return ideas
     }
@@ -92,6 +100,15 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "BusinessIdeas.db",
         val rowsDeleted = db.delete("business_ideas", "businessName = ?", arrayOf(name))
         Log.d(TAG, "deleteBusinessIdeaByName: rows deleted = $rowsDeleted")
         return rowsDeleted > 0
+    }
+
+    /** NEW: Update the saved AI suggestion for a given idea name */
+    fun updateAiSuggestionByName(name: String, suggestion: String): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply { put("aiSuggestion", suggestion) }
+        val rows = db.update("business_ideas", values, "businessName = ?", arrayOf(name))
+        Log.d(TAG, "updateAiSuggestionByName: rows=$rows")
+        return rows > 0
     }
 
     private fun parseJsonToMap(jsonString: String?): Map<String, Int> {

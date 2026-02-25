@@ -8,51 +8,55 @@ import com.Derick.Ideagauge.Data.Db.DbHelper
 import com.Derick.Ideagauge.Data.Model.BusinessIdea
 import com.Derick.Ideagauge.Data.Repository.BusinessIdeaRepository
 
-
-class BusinessPageViewModel() : ViewModel() {
-
+class BusinessPageViewModel : ViewModel() {
 
     private lateinit var repository: BusinessIdeaRepository
+    private lateinit var dbHelper: DbHelper
+
     private val _selectedIdea = MutableLiveData<BusinessIdea>()
     val selectedIdea: LiveData<BusinessIdea> = _selectedIdea
 
-
-
     fun initRepository(context: Context) {
-        val dbHelper = DbHelper(context)
+        dbHelper = DbHelper(context.applicationContext)
         repository = BusinessIdeaRepository(dbHelper)
     }
 
-    fun loadRankedIdeaByPosition(position: Int) {
-        val idea = repository.getRankedIdeaAt(position)
-        idea?.let {
-            _selectedIdea.value = it
-        }
-    }
-
     fun loadIdeaByPosition(position: Int) {
-        val idea = repository.getIdeaAt(position)
-        idea?.let {
-            _selectedIdea.value = it
-        }
+        repository.getIdeaAt(position)?.let { _selectedIdea.value = it }
     }
 
     fun loadIdeaByDateId(date: Long) {
-        val allIdeas = repository.getAllRankedIdeas()
-        val match = allIdeas.find { it.date.time == date }
-        match?.let {
-            _selectedIdea.value = it
-        }
+        val match = repository.getAllRankedIdeas().find { it.date.time == date }
+        match?.let { _selectedIdea.value = it }
     }
 
-    fun deleteBusinessIdea(targetIdea: BusinessIdea){
+    fun deleteBusinessIdea(targetIdea: BusinessIdea) {
         repository.removeBusinessIdea(targetIdea)
     }
 
     fun getBusinessIdeaRank(targetIdea: BusinessIdea): Int {
         val data = repository.getAllRankedIdeas()
-        val sortedIdeas = data.sortedByDescending { it.businessScore }
-        return sortedIdeas.indexOfFirst { it == targetIdea } + 1
+        val sorted = data.sortedByDescending { it.businessScore }
+        // Rank by identity or name (name is safer across copies)
+        val idx = sorted.indexOfFirst { it.businessName == targetIdea.businessName }
+        return if (idx >= 0) idx + 1 else 0
     }
 
+    /**
+     * Optional helper: after the Activity saves the AI text to DB, call this to
+     * reflect it in UI immediately without a DB re-query.
+     */
+    fun setAiSuggestionOnSelected(suggestion: String) {
+        _selectedIdea.value = _selectedIdea.value?.copy(aiSuggestion = suggestion)
+    }
+
+    /**
+     * Optional helper: if you want to re-read the latest row from DB (e.g., after save).
+     */
+    fun refreshSelectedIdea() {
+        val current = _selectedIdea.value ?: return
+        val updated = repository.getAllRankedIdeas()
+            .find { it.businessName == current.businessName }
+        if (updated != null) _selectedIdea.value = updated
+    }
 }
